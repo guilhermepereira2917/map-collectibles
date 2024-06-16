@@ -7,6 +7,7 @@ import { ReactNode } from "react";
 import { ImageOverlay, MapContainer, Marker } from "react-leaflet";
 import "../app/leaflet.css";
 import MapClickLogger from "./MapClickLogger";
+import ElmcreekMarker from "./ElmcreekMarker";
 
 export default function Map(): ReactNode {
   const boundsCoordinates: LatLngBoundsExpression = [[0, 0], [MAP_UNITS, MAP_UNITS]];
@@ -17,11 +18,7 @@ export default function Map(): ReactNode {
       <ImageOverlay url="maps/fs22-elmcreek.png" bounds={boundsCoordinates} />
       <MapClickLogger />
 
-      {elmcreekCollectibles.map((collectible: ElmcreekCollectible, index: number): ReactNode => {
-        return (
-          <Marker position={createPosition(collectible.x, collectible.y)} key={index} />
-        );
-      })}
+      {elmcreekCollectibles.map((collectible: ElmcreekCollectible, index: number): ReactNode => <ElmcreekMarker collectible={collectible} key={index} />)}
     </MapContainer >
   );
 }
