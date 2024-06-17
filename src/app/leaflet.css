@@ -650,6 +650,12 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	border-right-color: #fff;
 	}
 
+/* Custom Styles */
+.leaflet-popup-tip {
+    height: 0;
+    width: 0;
+  }
+
 /* Printing */
 
 @media print {

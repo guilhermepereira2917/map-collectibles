@@ -1,24 +1,55 @@
 import { createPosition, ElmcreekCollectible, ElmcreekCollectibleColor, ElmcreekCollectibleType } from "@/api/elmcreekCollectibles";
-import { DivIcon, Icon } from "leaflet";
-import { ReactNode } from "react";
-import { Marker } from "react-leaflet";
+import { DivIcon } from "leaflet";
+import { ReactNode, useRef, useState } from "react";
+import { Marker, Popup } from "react-leaflet";
+import { Button } from "./ui/button"; import { SquareCheck } from 'lucide-react';
 
 interface ElmcreekMarkerProps {
   collectible: ElmcreekCollectible,
 }
 
+const collectedColor: string = 'filter: brightness(0) saturate(100%) invert(30%) sepia(1%) saturate(0%) hue-rotate(22deg) brightness(100%) contrast(86%)';
+
 export default function ElmcreekMarker(props: ElmcreekMarkerProps): ReactNode {
+  const [collected, setCollected] = useState<boolean>(false);
+  const popupRef = useRef<any>();
+
   const collectibleTypeName: string = ElmcreekCollectibleType[props.collectible.type];
-  const collectibleColor: ElmcreekCollectibleColor = props.collectible.color;
+  const collectibleColorName: string = ElmcreekCollectibleColor[props.collectible.color];
+  const markerColor: string = collected ? collectedColor : getMarkerColor(props.collectible.color);
 
   const icon = new DivIcon({
-    html: `<img src="/icons/${collectibleTypeName}.svg" class="w-[32px] h-[32px]" style="${getMarkerColor(collectibleColor)}" />`,
+    html: `<img src="/icons/${collectibleTypeName}.svg" class="w-[32px] h-[32px]" style="${markerColor}" />`,
     iconSize: [32, 32],
     className: '',
   });
 
+  const handleClick = (): void => {
+    setCollected((previous: boolean): boolean => !previous);
+    closePopup();
+  };
+
+  const closePopup = (): void => {
+    if (popupRef.current) {
+      popupRef.current._closeButton.click();
+    }
+  };
+
   return (
-    <Marker icon={icon} position={createPosition(props.collectible.x, props.collectible.y)} />
+    <Marker icon={icon} position={createPosition(props.collectible.x, props.collectible.y)}>
+      <Popup ref={popupRef} className="flex">
+        <p className="block">
+          <b>Coordinates:</b> {`${props.collectible.x}, ${props.collectible.y}`} <br />
+          <b>Type: </b> {collectibleTypeName} <br />
+          <b>Color: </b> {collectibleColorName}
+        </p>
+
+
+        <Button onClick={handleClick}>
+          <SquareCheck className="mr-2"/> Mark as {collected ? 'Uncollected' : 'Collected'}
+        </Button>
+      </Popup>
+    </Marker>
   );
 }
 
