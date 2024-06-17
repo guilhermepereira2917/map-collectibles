@@ -1,8 +1,9 @@
 import { createPosition, ElmcreekCollectible, ElmcreekCollectibleColor, ElmcreekCollectibleType } from "@/api/elmcreekCollectibles";
 import { DivIcon } from "leaflet";
-import { ReactNode, useRef, useState } from "react";
+import { ReactNode, useContext, useRef, useState } from "react";
 import { Marker, Popup } from "react-leaflet";
 import { Button } from "./ui/button"; import { SquareCheck } from 'lucide-react';
+import { CollectedCountContext } from "@/contexts/CollectedCountContext";
 
 interface ElmcreekMarkerProps {
   collectible: ElmcreekCollectible,
@@ -12,6 +13,7 @@ const collectedColor: string = 'filter: brightness(0) saturate(100%) invert(30%)
 
 export default function ElmcreekMarker(props: ElmcreekMarkerProps): ReactNode {
   const [collected, setCollected] = useState<boolean>(false);
+  const { setCollectedCount } = useContext(CollectedCountContext);
   const popupRef = useRef<any>();
 
   const collectibleTypeName: string = ElmcreekCollectibleType[props.collectible.type];
@@ -25,8 +27,10 @@ export default function ElmcreekMarker(props: ElmcreekMarkerProps): ReactNode {
   });
 
   const handleClick = (): void => {
-    setCollected((previous: boolean): boolean => !previous);
     closePopup();
+
+    setCollected((previous: boolean): boolean => !previous);
+    setCollectedCount((previous: number): number => collected ? previous - 1 : previous + 1);
   };
 
   const closePopup = (): void => {
@@ -46,7 +50,7 @@ export default function ElmcreekMarker(props: ElmcreekMarkerProps): ReactNode {
 
 
         <Button onClick={handleClick}>
-          <SquareCheck className="mr-2"/> Mark as {collected ? 'Uncollected' : 'Collected'}
+          <SquareCheck className="mr-2" /> Mark as {collected ? 'Uncollected' : 'Collected'}
         </Button>
       </Popup>
     </Marker>
