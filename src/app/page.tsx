@@ -36,13 +36,19 @@ export default function Home() {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(collectibles));
   }
 
+  const uncollectAll = (): void => {
+    collectibles.forEach(collectible => collectible.collected = false);
+    setCollectibles([...collectibles]);
+  }
+
   return (
     <main className="w-full h-full flex">
       <CollectiblesProvider {...{ collectibles, filteredCollectibles, setCollectibles }}>
-        <div className="w-1/6 flex flex-col items-center justify-center">
+        <div className="w-1/6 flex flex-col items-center justify-center gap-2">
           <CollectbilesCounter />
           <ElmcreekFilters setCollectiblesType={setTypesFilter} />
           <Button onClick={saveCollectibles} className="font-bold">Save Collectibles</Button>
+          <Button variant="destructive" onClick={uncollectAll} className="font-bold">Uncollect All</Button>
         </div>
         <div className="w-5/6">
           <Map />
