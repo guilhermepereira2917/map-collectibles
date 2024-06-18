@@ -4,10 +4,10 @@ import { CollectiblesContext } from "@/contexts/CollectiblesContext";
 import { ReactNode, useContext } from "react";
 
 export default function CollectbilesCounter(): ReactNode {
-  const { collectibles } = useContext(CollectiblesContext);
+  const { filteredCollectibles } = useContext(CollectiblesContext);
 
-  const collected: number = collectibles.filter(collectible => collectible.collected).length;
-  const total: number = collectibles.length;
+  const collected: number = filteredCollectibles.filter(collectible => collectible.collected).length;
+  const total: number = filteredCollectibles.length;
 
   return (
     <p className="block">

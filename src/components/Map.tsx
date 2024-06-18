@@ -11,7 +11,7 @@ import MapClickLogger from "./MapClickLogger";
 import { CollectiblesContext } from "@/contexts/CollectiblesContext";
 
 export default function Map(): ReactNode {
-  const { collectibles } = useContext(CollectiblesContext);
+  const { filteredCollectibles } = useContext(CollectiblesContext);
 
   const boundsCoordinates: LatLngBoundsExpression = [[0, 0], [MAP_UNITS, MAP_UNITS]];
   const centerCoordinates: LatLngExpression = [boundsCoordinates[1][0] / 2, boundsCoordinates[1][1] / 2];
@@ -21,7 +21,7 @@ export default function Map(): ReactNode {
       <ImageOverlay url="maps/fs22-elmcreek.png" bounds={boundsCoordinates} />
       <MapClickLogger />
 
-      {collectibles.map((collectible: ElmcreekCollectible, index: number): ReactNode => <ElmcreekMarker collectible={collectible} key={index} />)}
+      {filteredCollectibles.map((collectible: ElmcreekCollectible, index: number): ReactNode => <ElmcreekMarker collectible={collectible} key={index} />)}
     </MapContainer >
   );
 }
