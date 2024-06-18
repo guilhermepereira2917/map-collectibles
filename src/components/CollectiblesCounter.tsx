@@ -1,18 +1,16 @@
 'use client';
 
-import { CollectedCountContext } from "@/contexts/CollectedCountContext";
-import { ReactNode, useContext } from "react";
+import { ReactNode } from "react";
 
 interface CollectbilesCounterProps {
+  collected: number,
   total: number,
 }
 
 export default function CollectbilesCounter(props: CollectbilesCounterProps): ReactNode {
-  const { collectedCount } = useContext(CollectedCountContext);
-
   return (
     <p className="block">
-      <b>Collected:</b> {collectedCount}/{props.total}
+      <b>Collected:</b> {props.collected}/{props.total}
     </p>
   );
 }
