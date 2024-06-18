@@ -1,16 +1,17 @@
 'use client';
 
-import { ReactNode } from "react";
+import { CollectiblesContext } from "@/contexts/CollectiblesContext";
+import { ReactNode, useContext } from "react";
 
-interface CollectbilesCounterProps {
-  collected: number,
-  total: number,
-}
+export default function CollectbilesCounter(): ReactNode {
+  const { collectibles } = useContext(CollectiblesContext);
 
-export default function CollectbilesCounter(props: CollectbilesCounterProps): ReactNode {
+  const collected: number = collectibles.filter(collectible => collectible.collected).length;
+  const total: number = collectibles.length;
+
   return (
     <p className="block">
-      <b>Collected:</b> {props.collected}/{props.total}
+      <b>Collected:</b> {collected}/{total}
     </p>
   );
 }

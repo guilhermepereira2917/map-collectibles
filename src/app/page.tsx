@@ -3,6 +3,7 @@
 import elmcreekCollectibles, { ElmcreekCollectible } from "@/api/elmcreekCollectibles";
 import CollectbilesCounter from "@/components/CollectiblesCounter";
 import { Button } from "@/components/ui/button";
+import { CollectiblesProvider } from "@/contexts/CollectiblesContext";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 
@@ -32,13 +33,15 @@ export default function Home() {
 
   return (
     <main className="w-full h-full flex">
-      <div className="w-1/6 flex flex-col items-center justify-center">
-        <CollectbilesCounter collected={collectibles.filter(collectible => collectible.collected).length} total={collectibles.length} />
-        <Button onClick={saveCollectibles} className="font-bold">Save Collectibles</Button>
-      </div>
-      <div className="w-5/6">
-        <Map collectibles={collectibles} />
-      </div>
-    </main >
+      <CollectiblesProvider {...{ collectibles, setCollectibles }}>
+        <div className="w-1/6 flex flex-col items-center justify-center">
+          <CollectbilesCounter />
+          <Button onClick={saveCollectibles} className="font-bold">Save Collectibles</Button>
+        </div>
+        <div className="w-5/6">
+          <Map />
+        </div>
+      </CollectiblesProvider>
+    </main>
   );
 }

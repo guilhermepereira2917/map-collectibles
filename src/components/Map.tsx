@@ -3,17 +3,16 @@
 import { MAP_UNITS } from "@/api/constants";
 import { ElmcreekCollectible } from "@/api/elmcreekCollectibles";
 import { CRS, LatLngBoundsExpression, LatLngExpression } from "leaflet";
-import { ReactNode } from "react";
+import { ReactNode, useContext } from "react";
 import { ImageOverlay, MapContainer } from "react-leaflet";
 import "../app/leaflet.css";
 import ElmcreekMarker from "./ElmcreekMarker";
 import MapClickLogger from "./MapClickLogger";
+import { CollectiblesContext } from "@/contexts/CollectiblesContext";
 
-interface MapProps {
-  collectibles: ElmcreekCollectible[],
-}
+export default function Map(): ReactNode {
+  const { collectibles } = useContext(CollectiblesContext);
 
-export default function Map(props: MapProps): ReactNode {
   const boundsCoordinates: LatLngBoundsExpression = [[0, 0], [MAP_UNITS, MAP_UNITS]];
   const centerCoordinates: LatLngExpression = [boundsCoordinates[1][0] / 2, boundsCoordinates[1][1] / 2];
 
@@ -22,7 +21,7 @@ export default function Map(props: MapProps): ReactNode {
       <ImageOverlay url="maps/fs22-elmcreek.png" bounds={boundsCoordinates} />
       <MapClickLogger />
 
-      {props.collectibles.map((collectible: ElmcreekCollectible, index: number): ReactNode => <ElmcreekMarker collectible={collectible} key={index} />)}
+      {collectibles.map((collectible: ElmcreekCollectible, index: number): ReactNode => <ElmcreekMarker collectible={collectible} key={index} />)}
     </MapContainer >
   );
 }
