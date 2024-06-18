@@ -5,6 +5,7 @@ import CollectbilesCounter from "@/components/CollectiblesCounter";
 import ElmcreekFilters from "@/components/ElmcreekFilters";
 import { Button } from "@/components/ui/button";
 import { CollectiblesProvider } from "@/contexts/CollectiblesContext";
+import { Save, Trash, Trash2 } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 
@@ -47,8 +48,12 @@ export default function Home() {
         <div className="w-1/6 flex flex-col items-center justify-center gap-2">
           <CollectbilesCounter />
           <ElmcreekFilters setCollectiblesType={setTypesFilter} />
-          <Button onClick={saveCollectibles} className="font-bold">Save Collectibles</Button>
-          <Button variant="destructive" onClick={uncollectAll} className="font-bold">Uncollect All</Button>
+          <Button onClick={saveCollectibles} className="font-bold">
+            <Save className="mr-1" /> Save Collectibles
+          </Button>
+          <Button variant="destructive" onClick={uncollectAll} className="font-bold">
+            <Trash2 className="mr-1" /> Uncollect All
+          </Button>
         </div>
         <div className="w-5/6">
           <Map />
