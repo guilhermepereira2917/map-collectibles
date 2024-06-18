@@ -4,8 +4,9 @@ import elmcreekCollectibles, { ElmcreekCollectible, ElmcreekCollectibleType } fr
 import CollectbilesCounter from "@/components/CollectiblesCounter";
 import ElmcreekFilters from "@/components/ElmcreekFilters";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import { CollectiblesProvider } from "@/contexts/CollectiblesContext";
-import { Save, Trash, Trash2 } from "lucide-react";
+import { Save, Trash2 } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 
@@ -18,6 +19,7 @@ const LOCAL_STORAGE_KEY: string = 'elmcreek-collectibles';
 export default function Home() {
   const [collectibles, setCollectibles] = useState<ElmcreekCollectible[]>([...elmcreekCollectibles]);
   const [typesFilter, setTypesFilter] = useState<ElmcreekCollectibleType[]>([]);
+  const { toast } = useToast();
 
   const filteredCollectibles: ElmcreekCollectible[] =
     typesFilter.length == 0 ? collectibles : collectibles.filter(collectible => typesFilter.includes(collectible.type));
@@ -35,6 +37,7 @@ export default function Home() {
 
   const saveCollectibles = (): void => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(collectibles));
+    toast({ description: 'Collectibles saved successfully!' });
   }
 
   const uncollectAll = (): void => {
