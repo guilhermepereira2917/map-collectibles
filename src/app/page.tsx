@@ -1,8 +1,9 @@
 'use client';
 
-import elmcreekCollectibles, { ElmcreekCollectible, ElmcreekCollectibleType } from "@/api/elmcreekCollectibles";
+import elmcreekCollectibles, { ElmcreekCollectible, FarmingSimulatorCollectibleType, FarmingSimulatorMap } from "@/api/elmcreekCollectibles";
 import CollectbilesCounter from "@/components/CollectiblesCounter";
 import ElmcreekFilters from "@/components/ElmcreekFilters";
+import MapSelect from "@/components/MapSelect";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { CollectiblesProvider } from "@/contexts/CollectiblesContext";
@@ -14,29 +15,42 @@ const Map = dynamic(() => import('../components/Map'), {
   ssr: false,
 });
 
-const LOCAL_STORAGE_KEY: string = 'elmcreek-collectibles';
+function getLocalStorageKey(map: FarmingSimulatorMap): string {
+  switch (map) {
+    case FarmingSimulatorMap.ElmCreek:
+      return 'elmcreek-collectibles';
+    case FarmingSimulatorMap.HautBeyleron:
+      return 'hautbeyleron-collectibles';
+  }
+}
 
 export default function Home() {
+  const [map, setMap] = useState<FarmingSimulatorMap>(FarmingSimulatorMap.ElmCreek);
   const [collectibles, setCollectibles] = useState<ElmcreekCollectible[]>([...elmcreekCollectibles]);
-  const [typesFilter, setTypesFilter] = useState<ElmcreekCollectibleType[]>([]);
+
+  const [typesFilter, setTypesFilter] = useState<FarmingSimulatorCollectibleType[]>([]);
   const { toast } = useToast();
 
   const filteredCollectibles: ElmcreekCollectible[] =
     typesFilter.length == 0 ? collectibles : collectibles.filter(collectible => typesFilter.includes(collectible.type));
 
+  const localStorageKey: string = getLocalStorageKey(map);
+
   useEffect(() => {
-    const savedCollectibles: string | null = localStorage.getItem(LOCAL_STORAGE_KEY);
+    const savedCollectibles: string | null = localStorage.getItem(localStorageKey);
     if (savedCollectibles) {
       try {
         setCollectibles(JSON.parse(savedCollectibles));
       } catch {
-        localStorage.setItem(LOCAL_STORAGE_KEY, '');
+        localStorage.setItem(localStorageKey, '');
       }
     }
-  }, []);
+
+    setTypesFilter([]);
+  }, [map]);
 
   const saveCollectibles = (): void => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(collectibles));
+    localStorage.setItem(localStorageKey, JSON.stringify(collectibles));
     toast({ description: 'Collectibles saved successfully!' });
   }
 
@@ -47,8 +61,9 @@ export default function Home() {
 
   return (
     <main className="w-full h-full flex">
-      <CollectiblesProvider {...{ collectibles, filteredCollectibles, setCollectibles }}>
-        <div className="w-1/6 flex flex-col items-center justify-center gap-2">
+      <CollectiblesProvider {...{ map, setMap, collectibles, filteredCollectibles, setCollectibles }}>
+        <div className="w-72 flex flex-col items-center justify-center gap-2">
+          <MapSelect />
           <CollectbilesCounter />
           <ElmcreekFilters setCollectiblesType={setTypesFilter} />
           <Button onClick={saveCollectibles} className="font-bold">

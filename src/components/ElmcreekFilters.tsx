@@ -1,23 +1,30 @@
-import { ElmcreekCollectibleType } from "@/api/elmcreekCollectibles";
+import { FarmingSimulatorCollectibleType, farmingSimulatorMapCollectiblesTypes } from "@/api/elmcreekCollectibles";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@radix-ui/react-tooltip";
-import { Dispatch, ReactNode, SetStateAction } from "react";
+import { Dispatch, ReactNode, SetStateAction, useContext } from "react";
 import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
+import { CollectiblesContext } from "@/contexts/CollectiblesContext";
 
 interface ElmcreekFiltersProp {
-  setCollectiblesType: Dispatch<SetStateAction<ElmcreekCollectibleType[]>>
+  setCollectiblesType: Dispatch<SetStateAction<FarmingSimulatorCollectibleType[]>>
 }
 
 export default function ElmcreekFilters(props: ElmcreekFiltersProp): ReactNode {
-  const collectibleTypes = Object.keys(ElmcreekCollectibleType).filter((value: string) => isNaN(Number(value)));
+  const { map } = useContext(CollectiblesContext);
+  const mapCollectiblesTypes: FarmingSimulatorCollectibleType[] | undefined = farmingSimulatorMapCollectiblesTypes.get(map);
+  const collectibleTypes = mapCollectiblesTypes?.map((type: FarmingSimulatorCollectibleType) => FarmingSimulatorCollectibleType[type]);
+
+  if (!collectibleTypes || collectibleTypes.length == 1) {
+    return null;
+  }
 
   const handleChange = (values: string[]): void => {
-    const types: ElmcreekCollectibleType[] = values.map((value: string) => ElmcreekCollectibleType[value as keyof typeof ElmcreekCollectibleType]);
+    const types: FarmingSimulatorCollectibleType[] = values.map((value: string) => FarmingSimulatorCollectibleType[value as keyof typeof FarmingSimulatorCollectibleType]);
     props.setCollectiblesType(types);
   }
 
   return (
     <ToggleGroup type="multiple" onValueChange={handleChange} className="flex flex-wrap items-center justify-center p-2 gap-2">
-      {collectibleTypes.map((collectible: string) => {
+      {collectibleTypes && collectibleTypes.map((collectible: string) => {
         return (
           <TooltipProvider key={collectible}>
             <Tooltip>

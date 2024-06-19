@@ -1,4 +1,4 @@
-import { createPosition, ElmcreekCollectible, ElmcreekCollectibleColor, ElmcreekCollectibleType } from "@/api/elmcreekCollectibles";
+import { createPosition, ElmcreekCollectible, ElmcreekCollectibleColor, FarmingSimulatorCollectibleType } from "@/api/elmcreekCollectibles";
 import { DivIcon } from "leaflet";
 import { SquareCheck } from 'lucide-react';
 import { ReactNode, useContext, useRef, useState } from "react";
@@ -18,9 +18,8 @@ export default function ElmcreekMarker(props: ElmcreekMarkerProps): ReactNode {
 
   const collected: boolean = props.collectible.collected;
 
-  const collectibleTypeName: string = ElmcreekCollectibleType[props.collectible.type];
-  const collectibleColorName: string = ElmcreekCollectibleColor[props.collectible.color];
-  const markerColor: string = collected ? collectedColor : getMarkerColor(props.collectible.color);
+  const collectibleTypeName: string = FarmingSimulatorCollectibleType[props.collectible.type];
+  const markerColor: string = collected ? collectedColor : props.collectible.color ? getMarkerColor(props.collectible.color) : '';
 
   const icon = new DivIcon({
     html: `<img src="/icons/${collectibleTypeName}.svg" class="w-[32px] h-[32px]" style="${markerColor}" />`,
@@ -47,9 +46,12 @@ export default function ElmcreekMarker(props: ElmcreekMarkerProps): ReactNode {
         <p className="block">
           <b>Coordinates:</b> {`${props.collectible.x}, ${props.collectible.y}`} <br />
           <b>Type: </b> {collectibleTypeName} <br />
-          <b>Color: </b> {collectibleColorName}
+          {props.collectible.color && (
+            <>
+              <b>Color: </b> {ElmcreekCollectibleColor[props.collectible.color]}
+            </>
+          )}
         </p>
-
 
         <Button onClick={handleClick}>
           <SquareCheck className="mr-2" /> Mark as {collected ? 'Uncollected' : 'Collected'}
