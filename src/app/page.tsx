@@ -1,8 +1,8 @@
 'use client';
 
-import elmcreekCollectibles, { ElmcreekCollectible, FarmingSimulatorCollectibleType, FarmingSimulatorMap } from "@/api/elmcreekCollectibles";
+import farmingSimulatorCollectibles, { FarmingSimulatorCollectible, FarmingSimulatorCollectibleType, FarmingSimulatorMap } from "@/api/farmingSimulatorCollectibles";
 import CollectbilesCounter from "@/components/CollectiblesCounter";
-import ElmcreekFilters from "@/components/ElmcreekFilters";
+import FarmingSimulatorFilters from "@/components/FarmingSimulatorFilters";
 import MapSelect from "@/components/MapSelect";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
@@ -26,12 +26,12 @@ function getLocalStorageKey(map: FarmingSimulatorMap): string {
 
 export default function Home() {
   const [map, setMap] = useState<FarmingSimulatorMap>(FarmingSimulatorMap.ElmCreek);
-  const [collectibles, setCollectibles] = useState<ElmcreekCollectible[]>([...elmcreekCollectibles]);
+  const [collectibles, setCollectibles] = useState<FarmingSimulatorCollectible[]>([...farmingSimulatorCollectibles]);
 
   const [typesFilter, setTypesFilter] = useState<FarmingSimulatorCollectibleType[]>([]);
   const { toast } = useToast();
 
-  const filteredCollectibles: ElmcreekCollectible[] =
+  const filteredCollectibles: FarmingSimulatorCollectible[] =
     typesFilter.length == 0 ? collectibles : collectibles.filter(collectible => typesFilter.includes(collectible.type));
 
   const localStorageKey: string = getLocalStorageKey(map);
@@ -65,7 +65,7 @@ export default function Home() {
         <div className="w-72 flex flex-col items-center justify-center gap-2">
           <MapSelect />
           <CollectbilesCounter />
-          <ElmcreekFilters setCollectiblesType={setTypesFilter} />
+          <FarmingSimulatorFilters setCollectiblesType={setTypesFilter} />
           <Button onClick={saveCollectibles} className="font-bold">
             <Save className="mr-1" /> Save Collectibles
           </Button>

@@ -1,12 +1,12 @@
-import { ElmcreekCollectible, FarmingSimulatorMap } from "@/api/elmcreekCollectibles";
+import { FarmingSimulatorCollectible, FarmingSimulatorMap } from "@/api/farmingSimulatorCollectibles";
 import { createContext, Dispatch, ReactNode, SetStateAction } from "react";
 
 interface CollectiblesType {
   map: FarmingSimulatorMap,
   setMap: Dispatch<SetStateAction<FarmingSimulatorMap>>,
-  collectibles: ElmcreekCollectible[],
-  filteredCollectibles: ElmcreekCollectible[],
-  setCollectibles: Dispatch<SetStateAction<ElmcreekCollectible[]>>,
+  collectibles: FarmingSimulatorCollectible[],
+  filteredCollectibles: FarmingSimulatorCollectible[],
+  setCollectibles: Dispatch<SetStateAction<FarmingSimulatorCollectible[]>>,
 }
 
 const collectiblesDefaultValue: CollectiblesType = {

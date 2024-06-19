@@ -1,4 +1,4 @@
-import { FarmingSimulatorCollectibleType, farmingSimulatorMapCollectiblesTypes } from "@/api/elmcreekCollectibles";
+import { FarmingSimulatorCollectibleType, farmingSimulatorMapCollectiblesTypes } from "@/api/farmingSimulatorCollectibles";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@radix-ui/react-tooltip";
 import { Dispatch, ReactNode, SetStateAction, useContext } from "react";
 import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";

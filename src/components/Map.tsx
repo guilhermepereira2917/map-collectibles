@@ -1,14 +1,14 @@
 'use client';
 
 import { MAP_UNITS } from "@/api/constants";
-import { ElmcreekCollectible, FarmingSimulatorMap } from "@/api/elmcreekCollectibles";
+import { FarmingSimulatorCollectible, FarmingSimulatorMap } from "@/api/farmingSimulatorCollectibles";
+import { CollectiblesContext } from "@/contexts/CollectiblesContext";
 import { CRS, LatLngBoundsExpression, LatLngExpression } from "leaflet";
 import { ReactNode, useContext } from "react";
 import { ImageOverlay, MapContainer } from "react-leaflet";
 import "../app/leaflet.css";
-import ElmcreekMarker from "./ElmcreekMarker";
+import ElmcreekMarker from "./FarmingSimulatorMarker";
 import MapClickLogger from "./MapClickLogger";
-import { CollectiblesContext } from "@/contexts/CollectiblesContext";
 
 export default function Map(): ReactNode {
   const { map, filteredCollectibles } = useContext(CollectiblesContext);
@@ -23,7 +23,7 @@ export default function Map(): ReactNode {
       <ImageOverlay url={mapUrl} bounds={boundsCoordinates} />
       <MapClickLogger />
 
-      {filteredCollectibles.map((collectible: ElmcreekCollectible, index: number): ReactNode => <ElmcreekMarker collectible={collectible} key={index} />)}
+      {filteredCollectibles.map((collectible: FarmingSimulatorCollectible, index: number): ReactNode => <ElmcreekMarker collectible={collectible} key={index} />)}
     </MapContainer >
   );
 } 

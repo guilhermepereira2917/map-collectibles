@@ -1,5 +1,5 @@
 
-import { FarmingSimulatorMap, farmingSimulatorMapCollectibles, FarmingSimulatorMapsLabel } from "@/api/elmcreekCollectibles";
+import { FarmingSimulatorMap, farmingSimulatorMapCollectibles, FarmingSimulatorMapsLabel } from "@/api/farmingSimulatorCollectibles";
 import { CollectiblesContext } from "@/contexts/CollectiblesContext";
 import { ReactNode, useContext } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
