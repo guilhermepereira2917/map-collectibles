@@ -5,13 +5,13 @@ import { remap } from "./utils";
 export enum FarmingSimulatorMap {
   ElmCreek,
   HautBeyleron,
-  // Erlengrat
+  Erlengrat,
 }
 
 export const FarmingSimulatorMapsLabel: Map<FarmingSimulatorMap, string> = new Map([
   [FarmingSimulatorMap.ElmCreek, 'Elm Creek'],
   [FarmingSimulatorMap.HautBeyleron, 'Haut-Beyleron'],
-  // [FarmingSimulatorMap.Erlengrat, 'Erlengrat'],
+  [FarmingSimulatorMap.Erlengrat, 'Erlengrat'],
 ]);
 
 export interface FarmingSimulatorCollectible {
@@ -35,6 +35,8 @@ export enum FarmingSimulatorCollectibleType {
   Horse,
 
   Cartridge,
+
+  Cheese,
 };
 
 export const farmingSimulatorMapCollectiblesTypes: Map<FarmingSimulatorMap, FarmingSimulatorCollectibleType[]> = new Map([
@@ -50,7 +52,8 @@ export const farmingSimulatorMapCollectiblesTypes: Map<FarmingSimulatorMap, Farm
     FarmingSimulatorCollectibleType.Cow,
     FarmingSimulatorCollectibleType.Horse
   ]],
-  [FarmingSimulatorMap.HautBeyleron, [FarmingSimulatorCollectibleType.Cartridge]]
+  [FarmingSimulatorMap.HautBeyleron, [FarmingSimulatorCollectibleType.Cartridge]],
+  [FarmingSimulatorMap.Erlengrat, [FarmingSimulatorCollectibleType.Cheese]],
 ]);
 
 export enum FarmingSimulatorCollectibleColor {
@@ -77,7 +80,7 @@ export function createPosition(x: number, y: number): LatLngExpression {
   return [correctedY + MAP_GAP_Y, correctedX + MAP_GAP_X];
 }
 
-const farmingSimulatorCollectibles: FarmingSimulatorCollectible[] = [
+const elmcreekCollectibles: FarmingSimulatorCollectible[] = [
   { x: 1951, y: 536, type: FarmingSimulatorCollectibleType.Tractor, color: FarmingSimulatorCollectibleColor.Red, collected: false },
   { x: 439, y: 1440, type: FarmingSimulatorCollectibleType.Tractor, color: FarmingSimulatorCollectibleColor.Orange, collected: false },
   { x: 564, y: 819, type: FarmingSimulatorCollectibleType.Tractor, color: FarmingSimulatorCollectibleColor.Yellow, collected: false },
@@ -212,9 +215,25 @@ const hautBeyleronCollectibles: FarmingSimulatorCollectible[] = [
   { x: 1415, y: 1892, type: FarmingSimulatorCollectibleType.Cartridge, collected: false },
 ];
 
+const erlengratCollectibles: FarmingSimulatorCollectible[] = [
+  { x: 482, y: 333, type: FarmingSimulatorCollectibleType.Cheese, collected: false },
+  { x: 1198, y: 523, type: FarmingSimulatorCollectibleType.Cheese, collected: false },
+  { x: 1539, y: 1134, type: FarmingSimulatorCollectibleType.Cheese, collected: false },
+  { x: 1013, y: 1632, type: FarmingSimulatorCollectibleType.Cheese, collected: false },
+  { x: 996, y: 1715, type: FarmingSimulatorCollectibleType.Cheese, collected: false },
+  { x: 363, y: 1931, type: FarmingSimulatorCollectibleType.Cheese, collected: false },
+  { x: 930, y: 1181, type: FarmingSimulatorCollectibleType.Cheese, collected: false },
+  { x: 1158, y: 1082, type: FarmingSimulatorCollectibleType.Cheese, collected: false },
+  { x: 1262, y: 1009, type: FarmingSimulatorCollectibleType.Cheese, collected: false },
+  { x: 1161, y: 860, type: FarmingSimulatorCollectibleType.Cheese, collected: false },
+  { x: 1049, y: 845, type: FarmingSimulatorCollectibleType.Cheese, collected: false },
+  { x: 1149, y: 961, type: FarmingSimulatorCollectibleType.Cheese, collected: false },
+];
+
 export const farmingSimulatorMapCollectibles: Map<FarmingSimulatorMap, FarmingSimulatorCollectible[]> = new Map([
-  [FarmingSimulatorMap.ElmCreek, farmingSimulatorCollectibles],
+  [FarmingSimulatorMap.ElmCreek, elmcreekCollectibles],
   [FarmingSimulatorMap.HautBeyleron, hautBeyleronCollectibles],
+  [FarmingSimulatorMap.Erlengrat, erlengratCollectibles],
 ]);
 
-export default farmingSimulatorCollectibles;
+export default elmcreekCollectibles;

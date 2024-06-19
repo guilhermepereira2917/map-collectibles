@@ -19,7 +19,7 @@ export default function ElmcreekMarker(props: ElmcreekMarkerProps): ReactNode {
   const collected: boolean = props.collectible.collected;
 
   const collectibleTypeName: string = FarmingSimulatorCollectibleType[props.collectible.type];
-  const markerColor: string = collected ? collectedColor : props.collectible.color ? getMarkerColor(props.collectible.color) : '';
+  const markerColor: string = collected ? collectedColor : props.collectible.color !== undefined ? getMarkerColor(props.collectible.color) : '';
 
   const icon = new DivIcon({
     html: `<img src="/icons/${collectibleTypeName}.svg" class="w-[32px] h-[32px]" style="${markerColor}" />`,
@@ -46,7 +46,7 @@ export default function ElmcreekMarker(props: ElmcreekMarkerProps): ReactNode {
         <p className="block">
           <b>Coordinates:</b> {`${props.collectible.x}, ${props.collectible.y}`} <br />
           <b>Type: </b> {collectibleTypeName} <br />
-          {props.collectible.color && (
+          {props.collectible.color !== undefined && (
             <>
               <b>Color: </b> {FarmingSimulatorCollectibleColor[props.collectible.color]}
             </>

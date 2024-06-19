@@ -1,6 +1,6 @@
 'use client';
 
-import farmingSimulatorCollectibles, { FarmingSimulatorCollectible, FarmingSimulatorCollectibleType, FarmingSimulatorMap } from "@/api/farmingSimulatorCollectibles";
+import elmcreekCollectibles, { FarmingSimulatorCollectible, FarmingSimulatorCollectibleType, FarmingSimulatorMap } from "@/api/farmingSimulatorCollectibles";
 import CollectbilesCounter from "@/components/CollectiblesCounter";
 import FarmingSimulatorFilters from "@/components/FarmingSimulatorFilters";
 import MapSelect from "@/components/MapSelect";
@@ -21,12 +21,14 @@ function getLocalStorageKey(map: FarmingSimulatorMap): string {
       return 'elmcreek-collectibles';
     case FarmingSimulatorMap.HautBeyleron:
       return 'hautbeyleron-collectibles';
+    case FarmingSimulatorMap.Erlengrat:
+      return 'erlengrat-collectibles';
   }
 }
 
 export default function Home() {
   const [map, setMap] = useState<FarmingSimulatorMap>(FarmingSimulatorMap.ElmCreek);
-  const [collectibles, setCollectibles] = useState<FarmingSimulatorCollectible[]>([...farmingSimulatorCollectibles]);
+  const [collectibles, setCollectibles] = useState<FarmingSimulatorCollectible[]>([...elmcreekCollectibles]);
 
   const [typesFilter, setTypesFilter] = useState<FarmingSimulatorCollectibleType[]>([]);
   const { toast } = useToast();
